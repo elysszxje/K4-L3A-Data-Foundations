@@ -20,3 +20,10 @@ src_w_solution/
 
 # Instructor-only notes (chứa gợi ý/đáp án chấm bài, không public cho học viên)
 docs/INSTRUCTOR_GUIDE.md
+TEAM-GUIDE*
+TEAM_GUIDE*
+
+# Extra team collaboration & temporary scratch files
+teammate_venture/
+data/urls_r2.csv
+scripts/verify_cp2.py

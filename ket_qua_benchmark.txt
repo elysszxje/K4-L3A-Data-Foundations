@@ -1,0 +1,80 @@
+====================================================================================================
+Chiến lược : FixedSizeChunker {'chunk_size': 500, 'overlap': 100}
+Embedder   : mock embeddings fallback
+Corpus     : data\university — 8 tài liệu, 37 chunk (dài TB 452, min 107, max 500)
+[CẢNH BÁO] Đang dùng MockEmbedder — điểm số là nhiễu, không phản ánh ngữ nghĩa.
+====================================================================================================
+
+Q1 [bẫy audience (cần filter)] Ở Thư viện Đại học Ngoại thương được mượn về nhà tối đa bao nhiêu tài liệu và trong bao lâu?
+   filter={'audience': 'student'}  gold_doc=ftu-library-borrowing-student  needle="03 tài liệu/30 ngày"
+   gold: 03 tài liệu/30 ngày (Một lần gia hạn thêm 15 ngày tính từ ngày thực hiện lệnh gia hạn) đối với sách tham khảo
+   1. score=0.246  library-ebook-service#3                audience=student  [✘       ]
+      nagement), người dùng không thể in ấn hoặc xuất toàn bộ file sách ra định dạng PDF mở bên ngoài ứng dụng.…
+   2. score=0.218  library-similarity-check#2             audience=student  [✘       ]
+      iệp | 25% | | Luận văn thạc sĩ | 20% | | Đề tài nghiên cứu khoa học | 20% | ## 3. Quy trình Thực hiện 7 Bước 1…
+   3. score=0.192  library-ebook-service#1                audience=student  [✘       ]
+      t bị di động (hỗ trợ hệ điều hành iOS và Android). 2. Mỗi sinh viên được mượn tối đa 03 cuốn e-Book cùng một t…
+   → Mức 1 (doc): 0đ (hạng None)   Mức 2 (chunk chứa đáp án): 0đ (hạng None)
+
+   [A/B] Cùng câu hỏi, KHÔNG filter:
+   1. score=0.246  library-ebook-service#3                audience=student  [✘       ]
+      nagement), người dùng không thể in ấn hoặc xuất toàn bộ file sách ra định dạng PDF mở bên ngoài ứng dụng.…
+   2. score=0.225  ftu-library-borrowing-faculty#0        audience=faculty  [✘       ]
+      # Quy định Mượn trả Tài liệu Thư viện dành cho Cán bộ và Giảng viên FTU Chính sách quy định chi tiết về hạn mứ…
+   3. score=0.218  library-similarity-check#2             audience=student  [✘       ]
+      iệp | 25% | | Luận văn thạc sĩ | 20% | | Đề tài nghiên cứu khoa học | 20% | ## 3. Quy trình Thực hiện 7 Bước 1…
+   → Mức 2 không filter: 0đ (hạng None) — 1/3 chunk sai đối tượng lọt top-3: ['ftu-library-borrowing-faculty#0']
+
+Q2 [tra con số] Chỉ số trùng lặp tối đa cho khóa luận tốt nghiệp khi tra soát trên Turnitin là bao nhiêu?
+   filter=None  gold_doc=library-similarity-check  needle="Khóa luận tốt nghiệp | 25%"
+   gold: Khóa luận tốt nghiệp: 25%
+   1. score=0.242  library-digital-resources#0            audience=student  [✘       ]
+      # Quy định Khai thác Cơ sở Dữ liệu và Học liệu Điện tử Quy chế hướng dẫn sinh viên, học viên khai thác các cơ …
+   2. score=0.234  library-online-booking#3               audience=student  [✘       ]
+      ày trước ngày sử dụng. 4. Trưởng nhóm đại diện phải xuất trình thẻ sinh viên tại bàn điều phối trước giờ hẹn t…
+   3. score=0.197  ftu-library-borrowing-faculty#2        audience=faculty  [✘       ]
+      tối đa 05 tài liệu cùng một thời điểm. - Thời hạn mượn tiêu chuẩn: 30 ngày kể từ ngày thực hiện thủ tục mượn t…
+   → Mức 1 (doc): 0đ (hạng None)   Mức 2 (chunk chứa đáp án): 0đ (hạng None)
+
+Q3 [quy trình / thời hạn] Sau khi người học nộp biên bản tra soát, thư viện trả kết quả trong bao lâu và ở đâu?
+   filter=None  gold_doc=library-similarity-check  needle="02 ngày làm việc kể từ ngày người học nộp biên bản"
+   gold: Trả kết quả tra soát tại K214 (Nhà K – ĐH Ngoại thương), chậm nhất trong vòng 02 ngày làm việc kể từ ngày người học nộp biên bản
+   1. score=0.246  dav-library-rules#3                    audience=all      [✘       ]
+      bảo quản chìa khóa trước khi vào phòng đọc (Thư viện không chịu trách nhiệm về mất mát tài sản cá nhân). - Khô…
+   2. score=0.203  library-ebook-service#2                audience=student  [✘       ]
+      ăng Tương tác 1. Bạn đọc có thể đọc trực tuyến không giới hạn số lượng e-Book trong khi kết nối với mạng nội b…
+   3. score=0.199  dav-library-rules#4                    audience=all      [✘       ]
+      ệt đối không giữ chỗ bằng đồ dùng cá nhân; nếu chỗ ngồi bỏ trống quá 15 phút, bạn đọc khác có quyền sử dụng. -…
+   → Mức 1 (doc): 0đ (hạng None)   Mức 2 (chunk chứa đáp án): 0đ (hạng None)
+
+Q4 [tra cứu giờ phục vụ] Thư viện Học viện Ngoại giao mở cửa vào Thứ Bảy từ mấy giờ đến mấy giờ?
+   filter=None  gold_doc=dav-library-rules  needle="Thứ Bảy: Từ 9:00 đến 18:00"
+   gold: Thứ Bảy: Từ 9:00 đến 18:00 (thông tầm không nghỉ giữa giờ); thư viện dừng phục vụ bạn đọc 15 phút trước giờ đóng cửa
+   1. score=0.235  library-similarity-check#2             audience=student  [✘       ]
+      iệp | 25% | | Luận văn thạc sĩ | 20% | | Đề tài nghiên cứu khoa học | 20% | ## 3. Quy trình Thực hiện 7 Bước 1…
+   2. score=0.180  ftu-library-borrowing-faculty#3        audience=faculty  [✘       ]
+      ao tác gia hạn trên cổng thông tin Thư viện. - Thời gian gia hạn: Được gia hạn thêm 01 lần với thời hạn 15 ngà…
+   3. score=0.157  library-ebook-service#2                audience=student  [✘       ]
+      ăng Tương tác 1. Bạn đọc có thể đọc trực tuyến không giới hạn số lượng e-Book trong khi kết nối với mạng nội b…
+   → Mức 1 (doc): 0đ (hạng None)   Mức 2 (chunk chứa đáp án): 0đ (hạng None)
+
+Q5 [điều kiện vi phạm] Mượn tài liệu về nhà trả trễ hạn bao nhiêu lần trong một năm học thì bị coi là hành vi nghiêm cấm?
+   filter=None  gold_doc=ftu-library-general-regulations  needle="quá hạn trên 03 lần/năm học"
+   gold: Mượn tài liệu về nhà quá hạn trên 03 lần/năm học
+   1. score=0.394  ftu-library-borrowing-faculty#3        audience=faculty  [✘       ]
+      ao tác gia hạn trên cổng thông tin Thư viện. - Thời gian gia hạn: Được gia hạn thêm 01 lần với thời hạn 15 ngà…
+   2. score=0.184  library-ebook-service#1                audience=student  [✘       ]
+      t bị di động (hỗ trợ hệ điều hành iOS và Android). 2. Mỗi sinh viên được mượn tối đa 03 cuốn e-Book cùng một t…
+   3. score=0.126  ftu-library-general-regulations#4      audience=all      [✔ đáp án · gold doc]
+      ấm tại Thư viện - Mang sách đọc tại chỗ ra khỏi Thư viện khi chưa được sự đồng ý của thủ thư; mang sách mượn v…
+   → Mức 1 (doc): 1đ (hạng 3)   Mức 2 (chunk chứa đáp án): 1đ (hạng 3)
+
+====================================================================================================
+#  Loại câu hỏi                 Mức 1 (doc)  Mức 2 (chunk)
+Q1 bẫy audience (cần filter)            0đ             0đ
+Q2 tra con số                           0đ             0đ
+Q3 quy trình / thời hạn                 0đ             0đ
+Q4 tra cứu giờ phục vụ                  0đ             0đ
+Q5 điều kiện vi phạm                    1đ             1đ
+TỔNG                                  1/10           1/10
+Câu có chunk chứa đáp án trong top-3: 1/5   (chênh lệch Mức 1 − Mức 2 = 0 điểm bị 'thổi phồng' nếu chỉ chấm theo doc_id)
